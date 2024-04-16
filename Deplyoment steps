@@ -1,0 +1,118 @@
+$ scp <folder name> cateina@164.52.209.241:/home/cateina/reconn-deploy
+ssh cateina@164.52.209.241
+sudo su
+ssh reconn
+Cd reconn-deploy
+scp <folder name> reconn:/home/reconn/reconn_stack
+Sudo su 
+Ls
+cd /home/reconn/
+ls
+cd /home/reconn/reconn_stack
+Ls
+Cp “file” Code_to_deploy
+Cd Code_to_deploy
+ls
+$ unzip <folder name>
+Vi docker-compose.ymal (for server)
+Vi docker-compose-ui.ymal
+docker-compose -f <compose file name> up
+
+
+
+
+
+
+Zip and scp 
+$ zip -r MyFolder.zip MyFolder
+From public ip to private 
+$ scp cateina@164.52.209.241:/home/cateina/reconn-deploy/filename .
+
+
+
+To increase postgresql connection
+take postgres dump first
+$ docker exec 8d6f7f0fbc49 pg_dump -U cateinarecon -h localhost -p 5432 -d postgresdb  > recondb-19-2-24_backup.sql  (the file on which taking the dump should always be sql )
+Go inside the postgres container
+$ docker exec -it 8d6f7f0fbc49 bash
+Check weather we have max_connection in this file
+$ cat /var/lib/postgresql/data/postgresql.conf
+Check with using 
+$ cat /var/lib/postgresql/data/postgresql.conf | grep max_connection
+If its there go outside the container ctrl+D
+
+Copy this file outside make the changes in that by increasing the max_connection and if not for change the shared_buffer=80MB
+$ docker cp 8d6f7f0fbc49:/var/lib/postgresql/data/postgresql.conf . 
+After the changes we have to copy the file inside the cnatiner again 
+$ docker cp  postgresql.conf 8d6f7f0fbc49:/var/lib/postgresql/data/postgresql.conf 
+Now we can restart the container 
+$ docker restart 8d6f7f0fbc49
+
+
+
+
+
+
+
+
+
+Increase max connection in pg bouncer 
+ADD env in the compose file
+$ PGBOUNCER_MAX_CLIENT_CONN=300
+
+
+
+To see mongo databse
+Go inside mongo container
+$ docker exec -it 94273b027995 bash
+
+The mongosh command is used to start the MongoDB Shell, which is a command-line interface for interacting with MongoDB databases.
+$ mongosh
+Test > will appear
+To see dbs
+test> show dbs
+// Show all databases
+show dbs
+
+// Switch to a specific database
+use your_database_name
+
+// Show collections in the current database
+show collections
+
+// Query documents in a collection
+db.your_collection_name.find()
+
+
+
+How to see all the schema of any other query inside conatiner
+$ docker exec -it 8d6f7f0fbc49 psql -U cateinarecon -d postgresdb
+To see schema
+$ \dn
+To see all the tables user_entity and all
+$ \dt
+$ SELECT schema_name FROM information_schema.schemata;
+
+
+
+
+
+
+Docker Save
+We mostly save images in an tar file so that during offline deployment we can use that after that we send it through sftp and then load the image
+Save Image as a tar file
+$ docker save -o new-test.tar nginx:latest
+Connect to the client pc using there ip and username
+$sftp <username>@<ip>
+To see the exist file in clients pc do
+$ls
+To see our local files
+$lls
+To transfer the file use
+$ put <filename>
+To load the tar to image
+$ docker load -i <file name> 
+
+
+
+
