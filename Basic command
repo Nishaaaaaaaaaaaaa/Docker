@@ -1,0 +1,22 @@
+Jab bhi docker compose down pe down nahi hota hai gateway ya redis as sab tab terminal main sabse pehle 
+sudo aa-remove-unknown 
+Then docker ps likh and sab aayega jo jo on hai
+docker stop 33b1a934fa19 yeh woh gateway ya kiska id hai
+
+Docker compose down ho gaya fir
+To edit Edit the tyk.conf file
+First make a folder in tyk (example -name of the folder)
+In new terminal write docker cp cc63abac96bb:/opt/tyk-gateway/tyk.conf /home/nisha/Tyk_latest/tyk-pro-docker-demo
+docker cp (gateway path ) /tyk.conf /(example file path)
+Do cd example go in example folder
+Nano tyk.conf
+Make changes and save
+Then take it back to the gateway file
+docker cp /home/nisha/Tyk_latest/tyk-pro-docker-demo/tyk.conf  cc63abac96bb:/opt/tyk-gateway/tyk.conf
+Agar virtual workstation pe chal nahi raha hai slow hai toh ip r command likho then 192.168.136.129 aisa kuch aayega woh add kardenna naye chrome tab pe apne normal wala ubuntu pe and aage local host wala like http://192.168.136.129:3000/bootstrap 
+
+Ek server user to root ka access dena hai to open a file or anything usko owner banado woh file ka
+
+
+
+        
