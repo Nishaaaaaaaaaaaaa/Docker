@@ -1,0 +1,27 @@
+Error while stopping
+
+✘ Container tyk-pump                              Error while Stopping                                                                                   14.1s 
+✘ Container tyk-redis                             Error while Stopping                                                                                   14.1s 
+ ✘ Container tyk-gateway                           Error while Stopping                                                                                   14.1s 
+ ✘ Container tyk-dashboard                         Error while Stopping                                                                                   14.1s 
+ ✘ Container tyk-pro-docker-demo-tyk-ent-portal-1  Error while Stopping                                                                                   14.1s 
+Error response from daemon: cannot stop container: 754da968abf616e10efe187dec2d2f5475446918a83bcc47653af7a6ff221155: permission denied
+
+Solution: sudo aa-remove-unknown
+docker stop <containerid>
+
+https://stackoverflow.com/questions/54279514/how-to-stop-running-container-if-error-response-from-daemon-is-cannot-kill-con
+
+Address already in use:
+Error response from daemon: driver failed programming external connectivity on endpoint tyk-redis (fda2fce9582594e8cabd1990e8ad362bb32c5c30e3386026b3e5c8ca6946e614): Error starting userland proxy: listen tcp4 0.0.0.0:6379: bind: address already in use
+
+solution: 
+1. docker compose down 
+2. docker rm -fv $(docker ps -aq) 
+3. sudo lsof -i -P -n | grep 6379 (6379 is the address or the port number jo busy aa rha hai 
+4. sudo kill 1105 (1105 is the process id jo milega 3rd se) ye krne pe redis ka error aa rha tha ki kill karne pe bhi new new process id create ho rhe the for redis toh uske liye ye kiya -- 
+5. /etc/init.d/redis-server restart 
+6. /etc/init.d/redis-server stop 
+7. sudo lsof -i -P -n | grep 6379 (to check koi process nahi chal rhi na ab) 
+8. docker compose up ..... error solved
+
