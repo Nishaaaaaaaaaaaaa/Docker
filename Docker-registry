@@ -1,0 +1,41 @@
+Docker registry
+
+See the hostname
+hostname
+           nisha-ThinkPad-T470
+
+
+Create a registry folder
+mkdir registry
+Create an authentication inside registry
+cd registry       
+mkdir auth
+Inside auth run this to add user and password
+htpasswd -Bc registry.password testuser
+
+Create ssl 
+Create an certs directory
+mkdir certs
+mkdir certs (inside registry)
+ cd ../certs/
+openssl genrsa 1024 > ca.key
+ chmod 400 ca.key
+openssl req -new -x509 -nodes -sha1 -days 365 -key ca.key -out ca.cr
+cd ~/registry
+
+Create a rerigstry with authentication and SSL certificate
+docker run -d --name=registry  --env REGISTRY_AUTH=htpasswd --env REGISTRY_AUTH_HTPASSWD_REALM="Registry Realm" --env REGISTRY_AUTH_HTPASSWD_PATH=/auth/registry.password --env REGISTRY_HTTP_ADDR=0.0.0.0:443 --env REGISTRY_HTTP_TLS_CERTIFICATE=/certs/ca.crt --env REGISTRY_HTTP_TLS_KEY=/certs/ca.key --env REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/data -p 443:443 -v ./auth:/auth -v ./certs:/certs -v ./data:/data registry:2
+
+
+Test
+Docker login nisha-ThinkPad-T470
+
+
+Tag the image and push the image to the registry
+
+Pull the image
+
+
+
+
+
