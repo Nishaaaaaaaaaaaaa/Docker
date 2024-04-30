@@ -1,5 +1,5 @@
-$ scp <folder name> cateina@164.52.209.241:/home/cateina/reconn-deploy
-ssh cateina@164.52.209.241
+$ scp <folder name> cateina@164.52.209.200:/home/cateina/reconn-deploy
+ssh cateina@164.52.209.200
 sudo su
 ssh reconn
 Cd reconn-deploy
